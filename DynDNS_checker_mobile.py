@@ -4,26 +4,28 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
+import os
 
 LOG_PATH = "data/log.csv"
-
-# Zorg dat logmap bestaat
-import os
 os.makedirs("data", exist_ok=True)
 
 st.set_page_config(page_title="DynDNS Checker", page_icon="🌐", layout="centered")
 
 st.title("🌐 DynDNS Verbinding Checker")
+st.markdown("Controleer automatisch de status en het IP-adres van je DynDNS-host.")
 
-st.markdown("Controleer snel de status en het IP-adres van je DynDNS-host.")
+host = st.text_input("DynDNS-hostnaam", "srge.dyndns.org")
+auto_refresh = st.checkbox("Automatisch vernieuwen elke 10 seconden")
 
-# Invoer veld
-host = st.text_input("DynDNS-hostnaam", "mijnserver.dyndns.org")
+# als auto-refresh aanstaat → herlaad de pagina elke 10 seconden
+if auto_refresh:
+    st.markdown(
+        """
+        <meta http-equiv="refresh" content="10">
+        """,
+        unsafe_allow_html=True,
+    )
 
-# Interval voor automatische hercontrole
-auto_refresh = st.checkbox("Automatisch hercontroleren (elke 60 sec)")
-
-# Knop
 if st.button("Verbinding controleren") or auto_refresh:
     if not host.strip():
         st.warning("Voer een geldige hostnaam in.")
@@ -33,7 +35,6 @@ if st.button("Verbinding controleren") or auto_refresh:
                 ip = socket.gethostbyname(host)
                 st.info(f"**Gevonden IP-adres:** {ip}")
 
-                # Probeer HTTP-request
                 start = time.time()
                 response = requests.get(f"http://{host}", timeout=5)
                 duration = round(time.time() - start, 2)
@@ -43,7 +44,6 @@ if st.button("Verbinding controleren") or auto_refresh:
                 else:
                     st.warning(f"⚠️ Host bereikbaar, maar status: {response.status_code}")
 
-                # Log opslaan
                 new_row = pd.DataFrame([{
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "host": host,
@@ -64,12 +64,7 @@ if st.button("Verbinding controleren") or auto_refresh:
             except requests.exceptions.RequestException:
                 st.error("❌ Host niet bereikbaar.")
 
-# Toon logboek
 if os.path.exists(LOG_PATH):
-    st.subheader("📜 Logboek")
+    st.subheader("📜 Logboek (laatste 10 checks)")
     df = pd.read_csv(LOG_PATH)
     st.dataframe(df.tail(10), use_container_width=True)
-
-# Automatisch refresh (client side)
-if auto_refresh:
-    st.experimental_rerun()
