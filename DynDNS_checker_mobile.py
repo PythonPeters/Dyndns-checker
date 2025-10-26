@@ -9,7 +9,7 @@ import os
 LOG_PATH = "data/log.csv"
 os.makedirs("data", exist_ok=True)
 
-st.set_page_config(page_title="DynDNS Checker", page_icon="🌐", layout="centered")
+st.set_page_config(page_title="DynDNS Checker", page_icon="DynDNS.png", layout="centered")
 
 st.title("🌐 DynDNS Verbinding Checker")
 st.markdown("Controleer automatisch de status en het IP-adres van je DynDNS-host.")
