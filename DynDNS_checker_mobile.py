@@ -61,7 +61,7 @@ if st.button("Verbinding nu controleren"):
         with st.spinner(f"Bezig met controleren van {host}..."):
             try:
                 ip = socket.gethostbyname(host)
-                st.info(f"**Gevonden IP-adres:** {ip}")
+                st.info(f"**Laatste gevonden IP-adres:** {ip}")
 
                 start = time.time()
                 response = requests.get(f"http://{host}", timeout=5)
@@ -91,7 +91,7 @@ if st.button("Verbinding nu controleren"):
             except socket.gaierror:
                 st.error("❌ Host niet gevonden (DNS-fout).")
             except requests.exceptions.RequestException:
-                st.error("❌ DynDNS niet online.")
+                st.error(f"❌ {host} momenteel niet online.")
 
 # --- datastroom / grafiekweergave ---
 if os.path.exists(LOG_PATH):
@@ -108,6 +108,7 @@ if os.path.exists(LOG_PATH):
 
     # st.subheader("📊 Responstijd (seconden)")
     # st.line_chart(df.tail(30).set_index("timestamp")["response_time"])
+
 
 
 
