@@ -106,5 +106,6 @@ if os.path.exists(LOG_PATH):
     )
     st.text(stream_text)
 
-    st.subheader("📊 Responstijd (seconden)")
-    st.line_chart(df.tail(30).set_index("timestamp")["response_time"])
+    # st.subheader("📊 Responstijd (seconden)")
+    # st.line_chart(df.tail(30).set_index("timestamp")["response_time"])
+
