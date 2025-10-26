@@ -27,10 +27,10 @@ else:
 
 # --- paginaconfiguratie ---
 st.set_page_config(
-    page_title="DynDNS Realtime Checker",
-    page_icon="dyndns.png"
+    page_title="DynDNS Online Checker",
+    page_icon="DynDNS.png"
 )
-st.title("🌐 DynDNS Realtime Verbinding Checker")
+st.title("🌐 DynDNS Realtime Verbinding")
 
 st.markdown("Kies een DynDNS-host uit de lijst of voeg een nieuwe toe.")
 
@@ -91,7 +91,7 @@ if st.button("Verbinding nu controleren"):
             except socket.gaierror:
                 st.error("❌ Host niet gevonden (DNS-fout).")
             except requests.exceptions.RequestException:
-                st.error("❌ Host niet bereikbaar.")
+                st.error("❌ DynDNS niet online.")
 
 # --- datastroom / grafiekweergave ---
 if os.path.exists(LOG_PATH):
@@ -108,5 +108,6 @@ if os.path.exists(LOG_PATH):
 
     # st.subheader("📊 Responstijd (seconden)")
     # st.line_chart(df.tail(30).set_index("timestamp")["response_time"])
+
 
 
