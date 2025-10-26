@@ -28,7 +28,7 @@ else:
 # --- paginaconfiguratie ---
 st.set_page_config(
     page_title="DynDNS Realtime Checker",
-    page_icon="favicon.png"
+    page_icon="dyndns.png"
 )
 st.title("🌐 DynDNS Realtime Verbinding Checker")
 
@@ -108,4 +108,5 @@ if os.path.exists(LOG_PATH):
 
     # st.subheader("📊 Responstijd (seconden)")
     # st.line_chart(df.tail(30).set_index("timestamp")["response_time"])
+
 
